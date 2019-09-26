@@ -3,41 +3,41 @@
     <head>
         <meta charset="UTF-8">
         <title>Northern Grown</title>
-        <link rel="stylesheet" href="../public/stylesheets/main.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../public/stylesheets/main.css">
     </head>
 
     <body>
         <header>
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                        <a class="navbar-brand" href="#">Northern Grow</a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                        </button>
-                      
-                        <div class="collapse navbar-collapse" id="navbarContent">
-                          <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                              <a class="nav-link" >Home</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" href="reimbursementForm.html">Reimbursement Form</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link hidden" href="pendingRequest.html">Pending Requests</a>
-                            </li>
-                          </ul>
-                          <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" id="employeeName" >Employee Name</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Logout</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </nav>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+                    <a class="navbar-brand" href="/TJJProject1/index.html">Northern Grow</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" >Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reimbursementForm.html">Reimbursement Form</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link hidden" id="pendingRequests" href="pendingRequest.html">Pending Requests</a>
+                        </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" id="employeeName" >Employee Name</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="logout"	href="/TJJProject1/main/logout">Logout</a>
+                        </li>
+                        </ul>
+                    </div>
+                </nav>
         </header>
 
         <div class="container">

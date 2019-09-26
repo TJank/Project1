@@ -13,4 +13,8 @@ public class EmployeeService {
 		return new EmployeeRepositoryImpl().getEmployeeInfo(employeeId);
 	}
 
+	public void updateEmployee(Employee currentEmployee) {
+		new EmployeeRepositoryImpl().updateEmployee(currentEmployee);
+	}
+
 }

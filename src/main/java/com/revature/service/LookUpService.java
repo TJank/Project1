@@ -8,14 +8,14 @@ import com.revature.models.EventType;
 import com.revature.models.WaitingStatus;
 import com.revature.repository.LookUpRepositoryImpl;
 
-public class LoopUpService {
+public class LookUpService {
 	
-	public List<WaitingStatus> getAllWaitingStatuses() {
-		return new LookUpRepositoryImpl().getAllWaitingStatuses();
+	public List<WaitingStatus> getWaitingStatuses() {
+		return new LookUpRepositoryImpl().getWaitingStatuses();
 	}
 	
-	public List<ApprovedStatus> getAllApprovedStatuses() {
-		return new LookUpRepositoryImpl().getAllApprovedStatuses();
+	public List<ApprovedStatus> getAllPendingApprovedStatuses() {
+		return new LookUpRepositoryImpl().getAllPendingApprovedStatuses();
 	}
 	
 	public List<EmployeePosition> getAllEmployeePositions() {
@@ -24,6 +24,14 @@ public class LoopUpService {
 	
 	public List<EventType> getAllEventTypes() {
 		return new LookUpRepositoryImpl().getAllEventTypes();
+	}
+
+	public List<ApprovedStatus> getRejectedStatuses() {
+		return new LookUpRepositoryImpl().getRejectedStatuses();
+	}
+
+	public List<WaitingStatus> getAllReqInfoStatuses() {
+		return new LookUpRepositoryImpl().getAllReqInfoStatuses();
 	}
 	
 }

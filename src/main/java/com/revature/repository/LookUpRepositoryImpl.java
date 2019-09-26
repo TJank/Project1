@@ -19,7 +19,7 @@ import com.revature.util.ConnectionFactory;
 public class LookUpRepositoryImpl implements LookUpRepository {
 
 	@Override
-	public List<WaitingStatus> getAllWaitingStatuses() {
+	public List<WaitingStatus> getWaitingStatuses() {
 		List<WaitingStatus> waitingStatuses = new ArrayList<WaitingStatus>();
 		WaitingStatus tempStatus = null;
 		Connection conn = null;
@@ -28,7 +28,7 @@ public class LookUpRepositoryImpl implements LookUpRepository {
 		
 		try {
 			conn = ConnectionFactory.getConnection();
-			stmt = conn.prepareStatement("select * from waiting_status;");
+			stmt = conn.prepareStatement("select * from waiting_status where waitingstatus like '%Waiting%';");
 			set = stmt.executeQuery(); 
 			
 			while(set.next()) {
@@ -54,7 +54,7 @@ public class LookUpRepositoryImpl implements LookUpRepository {
 	}
 
 	@Override
-	public List<ApprovedStatus> getAllApprovedStatuses() {
+	public List<ApprovedStatus> getAllPendingApprovedStatuses() {
 		List<ApprovedStatus> approvedStatuses = new ArrayList<ApprovedStatus>();
 		ApprovedStatus tempStatus = null;
 		Connection conn = null;
@@ -63,7 +63,7 @@ public class LookUpRepositoryImpl implements LookUpRepository {
 		
 		try {
 			conn = ConnectionFactory.getConnection();
-			stmt = conn.prepareStatement("select * from approved_status;");
+			stmt = conn.prepareStatement("select * from approved_status where approvalstatus like '%Pending%';");
 			set = stmt.executeQuery(); 
 			
 			while(set.next()) {
@@ -158,6 +158,74 @@ public class LookUpRepositoryImpl implements LookUpRepository {
 		}
 		
 		return eventTypes;
+	}
+
+	public List<ApprovedStatus> getRejectedStatuses() {
+		List<ApprovedStatus> rejectedStatuses = new ArrayList<ApprovedStatus>();
+		ApprovedStatus tempStatus = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet set = null;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			stmt = conn.prepareStatement("select * from approved_status where approvalstatus like '%Rejected%';");
+			set = stmt.executeQuery(); 
+			
+			while(set.next()) {
+				tempStatus = new ApprovedStatus(
+						set.getInt(1),
+						set.getString(2)
+						);
+				rejectedStatuses.add(tempStatus);
+			}			
+			
+		} catch (PSQLException e) {
+			rejectedStatuses = null;
+		}
+		catch(SQLException e) {
+			rejectedStatuses = null;
+		} finally {
+			ConnectionClosers.closeConnection(conn);
+			ConnectionClosers.closeStatement(stmt);
+			ConnectionClosers.closeResultSet(set);
+		}
+		
+		return rejectedStatuses;
+	}
+
+	public List<WaitingStatus> getAllReqInfoStatuses() {
+		List<WaitingStatus> reqInfoStatuses = new ArrayList<WaitingStatus>();
+		WaitingStatus tempStatus = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet set = null;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			stmt = conn.prepareStatement("select * from waiting_status where waitingstatus like '%Info%';");
+			set = stmt.executeQuery(); 
+			
+			while(set.next()) {
+				tempStatus = new WaitingStatus(
+						set.getInt(1),
+						set.getString(2)
+						);
+				reqInfoStatuses.add(tempStatus);
+			}
+			
+		} catch (PSQLException e) {
+			reqInfoStatuses = null;
+		}
+		catch(SQLException e) {
+			reqInfoStatuses = null;
+		} finally {
+			ConnectionClosers.closeConnection(conn);
+			ConnectionClosers.closeStatement(stmt);
+			ConnectionClosers.closeResultSet(set);
+		}
+		
+		return reqInfoStatuses;
 	}
 
 }

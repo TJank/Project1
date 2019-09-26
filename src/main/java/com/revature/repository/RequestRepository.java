@@ -9,7 +9,8 @@ public interface RequestRepository {
 	// get requests per employee to be viewed on login
 	List<Request> getAllRequestsByEmployeeId(int employeeId);
 	
-	// to do -- the rest xD
+	public boolean insertNewRequest(Request request);
 	
-
+	public List<Request> getAllPendingRequestsByEmployeeLevel(String currentEmployeeTitle);
+	
 }

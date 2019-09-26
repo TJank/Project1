@@ -9,6 +9,8 @@ public class Employee {
 	private int availableAmount;
 	private int titleId;
 	private String title;
+	private int bossId;
+	private String bossTitle;
 	
 	public Employee() {
 		super();
@@ -23,7 +25,7 @@ public class Employee {
 
 
 	public Employee(int id, String email, String firstName, String lastName, int availableAmount, int titleId,
-			String title) {
+			String title, int bossId) {
 		super();
 		this.id = id;
 		this.email = email;
@@ -32,6 +34,23 @@ public class Employee {
 		this.availableAmount = availableAmount;
 		this.titleId = titleId;
 		this.title = title;
+		this.bossId = bossId;
+	}
+
+	public int getBossId() {
+		return bossId;
+	}
+
+	public void setBossId(int bossId) {
+		this.bossId = bossId;
+	}
+
+	public String getBossTitle() {
+		return bossTitle;
+	}
+
+	public void setBossTitle(String bossTitle) {
+		this.bossTitle = bossTitle;
 	}
 
 	public int getId() {

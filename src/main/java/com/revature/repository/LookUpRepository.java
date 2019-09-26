@@ -9,8 +9,8 @@ import com.revature.models.WaitingStatus;
 
 public interface LookUpRepository {
 	
-	List<WaitingStatus> getAllWaitingStatuses();
-	List<ApprovedStatus> getAllApprovedStatuses();
+	List<WaitingStatus> getWaitingStatuses();
+	List<ApprovedStatus> getAllPendingApprovedStatuses();
 	List<EmployeePosition> getAllEmployeePositions();
 	List<EventType> getAllEventTypes();
 	

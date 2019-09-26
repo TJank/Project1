@@ -2,24 +2,27 @@ function viewCompletedRow(row)
 {
 	let tdItems = row.parentNode.parentNode.getElementsByTagName("td");
 	let requestId = tdItems[0].innerHTML;
-	console.log(requestId);
 	// now somehow send this data to EDIT / VIEW the requests!!
+	document.cookie = "viewRequest=" + requestId + "; path=/TJJProject1/main/requestToView";
+	window.location.replace("./viewOnly.html");
 }
 
 function editPendingRow(row)
 {
 	let tdItems = row.parentNode.parentNode.getElementsByTagName("td");
 	let requestId = tdItems[0].innerHTML;
-	console.log(requestId);
 	// now somehow send this data to EDIT / VIEW the requests!!
+	document.cookie = "editRequest=" + requestId + "; path=/TJJProject1/main/requestToEdit";
+	window.location.replace("./editRequest.html");
 }
 
 function viewRejectedRow(row)
 {
 	let tdItems = row.parentNode.parentNode.getElementsByTagName("td");
 	let requestId = tdItems[0].innerHTML;
-	console.log(requestId);
 	// now somehow send this data to EDIT / VIEW the requests!!
+	document.cookie = "viewRequest=" + requestId + "; path=/TJJProject1/main/requestToView";
+	window.location.replace("./viewOnly.html");
 }
 
 function getEmployeeInfo(){
@@ -29,16 +32,21 @@ function getEmployeeInfo(){
 	let navEmpName = document.getElementById("employeeName");
 	let welcomeMsg = document.getElementById("userNameSpan");
 	let availableAmount = document.getElementById("amount");
+	let pendingRequestsLink = document.getElementById("pendingRequests");
 		
 	xhr.onreadystatechange = function(){
 		if(xhr.status === 200 && xhr.readyState === 4){
 			let employee = JSON.parse(xhr.responseText);
-			
 			let fullname = employee["firstName"] + " " + employee["lastName"];
 			navEmpName.innerHTML = fullname;
 			
 			welcomeMsg.innerHTML = fullname;
 			availableAmount.innerHTML = employee["availableAmount"];
+
+			let title = employee["title"];
+			if(title !== "Employee") {
+				pendingRequestsLink.classList.remove("hidden");
+			}
 			
 		}
 	}
@@ -60,6 +68,8 @@ function getAllEmployeeRequests(){
 	let completedBody = document.getElementById("completedRequestsBody");
 	let pendingBody = document.getElementById("pendingRequestsBody");
 	let rejectedBody = document.getElementById("rejectedRequestsBody");
+	let availableAmountSpan = document.getElementById("amount");
+	let currentAmount = document.getElementById("amount").innerHTML;
 	
 	xhr.onreadystatechange = function(){
 		if(xhr.status === 200 && xhr.readyState === 4){
@@ -125,10 +135,10 @@ function getAllEmployeeRequests(){
 					
 					let rStatus = document.createElement("td");
 					if(aRequest["waitingStatus"].includes("Info")) {
-						rProjected.innerHTML = aRequest["waitingStatus"];
+						rStatus.innerHTML = aRequest["waitingStatus"];
 						row.style.background = "orange";
 					} else {
-						rProjected.innerHTML = aRequest["approvalStatus"];
+						rStatus.innerHTML = aRequest["approvalStatus"];
 					}
 					
 					let editBtn = document.createElement("td");
@@ -169,7 +179,7 @@ function getAllEmployeeRequests(){
 					rProjected.innerHTML = aRequest["projectedAmount"];
 					
 					let rStatus = document.createElement("td");
-					rProjected.innerHTML = aRequest["approvalStatus"];
+					rStatus.innerHTML = aRequest["approvalStatus"];
 
 					let viewBtn = document.createElement("td");
 					viewBtn.innerHTML = '<input type="button" class="btn btn-sm defaultBtn" value="View" onclick="viewRejectedRow(this)">'
@@ -204,6 +214,8 @@ function getAllEmployeeRequests(){
 	xhr.send();
 	
 }
+
+
 
 
 

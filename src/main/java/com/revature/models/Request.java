@@ -9,11 +9,14 @@ public class Request {
 	private int eventTypeId;
 	private String eventType;
 	private String gradeFormat;
+	private double eventRate;
 	private String employeeFirstName;
 	private String employeeLastName;
 	private String employeeTitle;
 	private String approvalStatus;
+	private int approvalStatusId;
 	private String waitingStatus;
+	private int waitingStatusId;
 	private String requestedDate;
 	private String eventStartDate;
 	private String eventStartTime;
@@ -48,10 +51,21 @@ public class Request {
 		this.projectedAmount = projectedAmount;
 		this.workMissed = workMissed;
 	}
-
-
-
-
+	
+	// constructor for when an upper level employee is viewing the pending requests table
+	public Request(int id, String eventType, String employeeFirstName, String employeeLastName, String approvalStatus,
+			String waitingStatus, boolean isUrgent, String eventLocation, double eventCost) {
+		super();
+		this.id = id;
+		this.eventType = eventType;
+		this.employeeFirstName = employeeFirstName;
+		this.employeeLastName = employeeLastName;
+		this.approvalStatus = approvalStatus;
+		this.waitingStatus = waitingStatus;
+		this.isUrgent = isUrgent;
+		this.eventLocation = eventLocation;
+		this.eventCost = eventCost;
+	}
 
 	// constructor used when an employee is viewing their own request
 	public Request(int id, String eventLocation, String eventType, String eventStartDate, double eventCost, 
@@ -71,6 +85,60 @@ public class Request {
 		this.isUrgent = isUrgent;
 	}
 	
+	// used to display on view / approve page
+	public Request(int id, String eventType, String gradeFormat, double eventRate, String employeeFirstName,
+			String employeeLastName, String eventStartDate, String eventStartTime, String justification,
+			String description, String eventLocation, double eventCost, double projectedAmount, String workMissed,
+			String furtherInfo) {
+		super();
+		this.id = id;
+		this.eventType = eventType;
+		this.gradeFormat = gradeFormat;
+		this.eventRate = eventRate;
+		this.employeeFirstName = employeeFirstName;
+		this.employeeLastName = employeeLastName;
+		this.eventStartDate = eventStartDate;
+		this.eventStartTime = eventStartTime;
+		this.justification = justification;
+		this.description = description;
+		this.eventLocation = eventLocation;
+		this.eventCost = eventCost;
+		this.projectedAmount = projectedAmount;
+		this.workMissed = workMissed;
+		this.furtherInfo = furtherInfo;
+	}
+
+	public double getEventRate() {
+		return eventRate;
+	}
+
+	public void setEventRate(double eventRate) {
+		this.eventRate = eventRate;
+	}
+	
+	public String getEmployeeTitle() {
+		return employeeTitle;
+	}
+
+	public void setEmployeeTitle(String employeeTitle) {
+		this.employeeTitle = employeeTitle;
+	}
+
+	public int getApprovalStatusId() {
+		return approvalStatusId;
+	}
+
+	public void setApprovalStatusId(int approvalStatusId) {
+		this.approvalStatusId = approvalStatusId;
+	}
+
+	public int getWaitingStatusId() {
+		return waitingStatusId;
+	}
+
+	public void setWaitingStatusId(int waitingStatusId) {
+		this.waitingStatusId = waitingStatusId;
+	}
 	
 	public int getEventTypeId() {
 		return eventTypeId;

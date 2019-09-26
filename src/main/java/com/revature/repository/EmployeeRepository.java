@@ -6,6 +6,6 @@ public interface EmployeeRepository {
 	
 	int accountLogin(String email, String password); // handle the login request
 	Employee getEmployeeInfo(int employeeId); // get all of the employee information
-	
+	public void updateEmployee(Employee currentEmployee);
 	
 }

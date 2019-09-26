@@ -57,7 +57,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 	public Employee getEmployeeInfo(int employeeId) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
+		PreparedStatement stmt2 = null;
 		ResultSet set = null;
+		ResultSet set2 = null;
 		Employee currentEmployee = null;
 		
 		try {
@@ -66,7 +68,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 					"select  "
 					+ "UA.employeeid, UA.email, "
 					+ "E.firstname, E.lastname, E.availableamount, "
-					+ "PL.id, PL.title "
+					+ "PL.id, PL.title, E.bossid "
 					+ "FROM employee as E "
 					+ "inner join user_account as UA "
 					+ "on E.id = UA.employeeid "
@@ -92,8 +94,21 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 								set.getString(4), 
 								set.getInt(5), 
 								set.getInt(6), 
-								set.getString(7));
-			}			
+								set.getString(7),
+								set.getInt(8));
+			}
+			
+			stmt2 = conn.prepareStatement("select min(PL.title) "
+					+ "from position_level as PL inner join employee_position "
+					+ "as EP on PL.id = EP.positionlevelid where EP.employeeid = ?");
+			stmt2.setInt(1, currentEmployee.getBossId());
+			set2 = stmt2.executeQuery();
+			
+			while(set2.next()) {
+				currentEmployee.setBossTitle(set2.getString(1));
+			}
+			
+			
 			
 		} catch (PSQLException e) {
 			currentEmployee = null;
@@ -101,13 +116,47 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 		catch(SQLException e) {
 			currentEmployee = null;
 		} finally {
-			ConnectionClosers.closeConnection(conn);
-			ConnectionClosers.closeStatement(stmt);
-			ConnectionClosers.closeResultSet(set);
+			if(conn != null) {
+				ConnectionClosers.closeConnection(conn);
+			}
+			if(stmt != null) {
+				ConnectionClosers.closeStatement(stmt);
+			}
+			if(set != null) {
+				ConnectionClosers.closeResultSet(set);
+			}
+			if(set2 != null) {
+				ConnectionClosers.closeResultSet(set2);;
+			}
+			if(stmt2 != null) {
+				ConnectionClosers.closeStatement(stmt2);
+			}
 		}
 		
 		
 		return currentEmployee;
+	}
+
+	public void updateEmployee(Employee currentEmployee) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			stmt = conn.prepareStatement("update employee set availableamount = ? where id = ?;");
+			stmt.setDouble(1, currentEmployee.getAvailableAmount());
+			stmt.setInt(2, currentEmployee.getId());
+			stmt.execute(); // this returns a result
+			
+			
+		} catch (PSQLException e) {
+		}
+		catch(SQLException e) {
+		} finally {
+			ConnectionClosers.closeConnection(conn);
+			ConnectionClosers.closeStatement(stmt);
+		}
+		
 	}
 	
 }

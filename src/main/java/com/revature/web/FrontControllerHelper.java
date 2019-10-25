@@ -137,7 +137,7 @@ public class FrontControllerHelper {
 					HttpSession session = request.getSession();
 					String empFullName = currentEmployee.getFirstName() + " " + currentEmployee.getLastName();
 					session.setAttribute("employeeId", currentEmployee.getId());
-					session.setAttribute("employeeName", empFullName);
+					session.setAttribute("bossTitle", currentEmployee.getBossTitle());
 					session.setAttribute("employeeTitleId", currentEmployee.getTitleId());
 					session.setAttribute("employeeTitle", currentEmployee.getTitle());
 					return currentEmployee;
@@ -204,18 +204,18 @@ public class FrontControllerHelper {
 			if (sess != null) {
 				int requestId = -1;
 				String status = "";
-				String currentEmployeeId = (String) sess.getAttribute("employeeId");
+				String bossTitle = (String) sess.getAttribute("bossTitle");
 				Cookie[] cookies = request.getCookies();
 				for (Cookie cookie : cookies) {
 					if (cookie.getName().equals("saveId")) {
 						requestId = Integer.parseInt(cookie.getValue());
 						status = "save";
 						String moreInfo = request.getParameter("eventAdditionalInfo");
-//						return editRequestBasedOffStatus(requestId, status, moreInfo, currentEmployeeId);
+						return updateRequest(requestId, status, moreInfo, bossTitle);
 					} else if (cookie.getName().equals("cancelRequestId")) {
 						requestId = Integer.parseInt(cookie.getValue());
 						status = "reqinfo";
-//						return cancelRequest(requestId);
+						return cancelRequest(requestId);
 					}
 				}
 			}
@@ -307,6 +307,28 @@ public class FrontControllerHelper {
 		currentEmployee.setAvailableAmount(employeeAvailableAmount);
 		empService.updateEmployee(currentEmployee);
 		return reqService.insertNewRequest(request);
+	}
+	
+	private static Object cancelRequest(int requestId) {
+		RequestService reqService = new RequestService();
+		reqService.cancelRequest(requestId);
+		return "Request Canceled";
+	}
+	
+	private static Object updateRequest(int requestId, String status, String moreInfo, String bossTitle) {
+		RequestService reqService = new RequestService();
+		List<ApprovedStatus> pendingStatuses = getAllPendingApprovedStatuses();
+		int approvedStatusId = -1;
+		
+		for(ApprovedStatus appStatus : pendingStatuses) {
+			if (appStatus.getApprovalStatus().toLowerCase().contains(bossTitle.toLowerCase())) {
+				approvedStatusId = appStatus.getId();
+			}
+		}
+		
+		reqService.updateMoreInfoRequest(requestId, moreInfo, approvedStatusId);
+		
+		return "Added More info to request";
 	}
 	
 	private static Object editRequestBasedOffStatus(int requestId, String status, String currentEmployeeTitle) {

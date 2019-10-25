@@ -33,4 +33,13 @@ public class RequestService {
 	public void updateRejectedRequest(int requestId, int approvedStatusId) {
 		new RequestRepositoryImpl().updateRejectedRequest(requestId, approvedStatusId);
 	}
+
+	public void updateMoreInfoRequest(int requestId, String moreInfo, int approvedStatusId) {
+		new RequestRepositoryImpl().updateMoreInfoRequest(requestId, moreInfo, approvedStatusId);
+		
+	}
+
+	public void cancelRequest(int requestId) {
+		new RequestRepositoryImpl().cancelRequest(requestId);
+	}
 }

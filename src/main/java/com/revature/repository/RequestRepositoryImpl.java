@@ -100,8 +100,7 @@ public class RequestRepositoryImpl implements RequestRepository {
 					"eventcost, projectedamount, timemissed) values(" + 
 					"default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 			stmt.setInt(1, request.getEmployeeId());
-			System.out.println("set one value");
-			stmt.setInt(2, request.getEventTypeId());
+ 			stmt.setInt(2, request.getEventTypeId());
 			stmt.setInt(3, request.getApprovalStatusId());
 			stmt.setInt(4, request.getWaitingStatusId());
 			stmt.setString(5, request.getEventStartDate());
@@ -357,6 +356,69 @@ public class RequestRepositoryImpl implements RequestRepository {
 				ConnectionClosers.closeResultSet(set);
 			}
 		}
+	}
+
+	public void updateMoreInfoRequest(int requestId, String moreInfo, int approvedStatusId) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet set = null;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			stmt = conn.prepareStatement("update request "
+					+ "set furtherinformation = ?, approvedstatusid = ? where id = ?");
+			stmt.setString(1, moreInfo);
+			stmt.setInt(2, approvedStatusId);
+			stmt.setInt(3, requestId);
+			stmt.execute(); 
+			
+			
+		} catch (PSQLException e) {
+		}
+		catch(SQLException e) {
+		} finally {
+			if(conn != null) {
+				ConnectionClosers.closeConnection(conn);
+			}
+			if(stmt != null) {
+				ConnectionClosers.closeStatement(stmt);
+			}
+			if(set != null) {
+				ConnectionClosers.closeResultSet(set);
+			}
+		}
+		
+	}
+
+	public void cancelRequest(int requestId) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet set = null;
+		
+		try {
+			conn = ConnectionFactory.getConnection();
+			stmt = conn.prepareStatement("update request "
+					+ "set approvedstatusid = ? where id = ?");
+			stmt.setInt(1, 17);
+			stmt.setInt(2, requestId);
+			stmt.execute(); 
+			
+			
+		} catch (PSQLException e) {
+		}
+		catch(SQLException e) {
+		} finally {
+			if(conn != null) {
+				ConnectionClosers.closeConnection(conn);
+			}
+			if(stmt != null) {
+				ConnectionClosers.closeStatement(stmt);
+			}
+			if(set != null) {
+				ConnectionClosers.closeResultSet(set);
+			}
+		}
+		
 	}
 
 }
